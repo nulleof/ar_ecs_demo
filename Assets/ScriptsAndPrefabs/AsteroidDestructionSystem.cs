@@ -2,6 +2,7 @@ using Unity.Entities;
 
 namespace ScriptsAndPrefabs {
 
+	[UpdateInGroup(typeof(LateSimulationSystemGroup))]
 	public class AsteroidDestructionSystem : SystemBase {
 
 		private EndSimulationEntityCommandBufferSystem endSimECB;
