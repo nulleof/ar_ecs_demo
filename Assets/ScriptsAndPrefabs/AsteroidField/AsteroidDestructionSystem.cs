@@ -8,9 +8,9 @@ namespace ScriptsAndPrefabs.AsteroidField {
 		private EndSimulationEntityCommandBufferSystem endSimECB;
 
 		protected override void OnCreate() {
-			
+
 			this.endSimECB = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-			
+
 		}
 
 
@@ -19,11 +19,9 @@ namespace ScriptsAndPrefabs.AsteroidField {
 			var commandBuffer = this.endSimECB.CreateCommandBuffer().AsParallelWriter();
 
 			Entities.WithAll<DestroyTag, AsteroidTag>().ForEach((int nativeThreadIndex, Entity e) => {
-
 				commandBuffer.DestroyEntity(nativeThreadIndex, e);
-
 			}).ScheduleParallel();
-			
+
 			this.endSimECB.AddJobHandleForProducer(Dependency);
 
 		}

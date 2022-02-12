@@ -13,20 +13,20 @@ namespace ScriptsAndPrefabs.AsteroidField {
 		protected override void OnCreate() {
 
 			this.endFixedStepSimECB = World.GetOrCreateSystem<EndFixedStepSimulationEntityCommandBufferSystem>();
-			RequireSingletonForUpdate<GameSettingsComponent>();
+			RequireSingletonForUpdate<GameSettings_C>();
 
 		}
 
 		protected override void OnUpdate() {
 
 			var commandBuffer = this.endFixedStepSimECB.CreateCommandBuffer().AsParallelWriter();
-			var settings = GetSingleton<GameSettingsComponent>();
+			var settings = GetSingleton<GameSettings_C>();
 
 			Entities.WithAll<AsteroidTag>().ForEach((Entity e, int nativeThreadIndex, in Translation position) => {
 
 				if (Mathf.Abs(position.Value.x) > settings.levelWidth / 2
 				    || Mathf.Abs(position.Value.y) > settings.levelHeight / 2
-				    || Mathf.Abs(position.Value.y) > settings.levelHeight / 2) {
+				    || Mathf.Abs(position.Value.z) > settings.levelDepth / 2) {
 
 					commandBuffer.AddComponent(nativeThreadIndex, e, new DestroyTag());
 

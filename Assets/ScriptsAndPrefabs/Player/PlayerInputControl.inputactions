@@ -20,6 +20,38 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "PlayerMovement",
+                    "type": "Value",
+                    "id": "0405152a-3b4d-4f59-b9b0-d27607439729",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PlayerLook",
+                    "type": "Value",
+                    "id": "6f5575b5-37f5-476d-82b1-768a902fdf20",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PlayerEnableLook",
+                    "type": "Button",
+                    "id": "21a20aea-27e3-45ed-999f-8432dcb44803",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold"
+                },
+                {
+                    "name": "StopFlying",
+                    "type": "Button",
+                    "id": "020cbb82-a271-4d5c-beee-44e6119334c3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold"
                 }
             ],
             "bindings": [
@@ -42,6 +74,94 @@
                     "processors": "",
                     "groups": "PCPlayer",
                     "action": "DespawnPlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "c3cff033-6727-4c94-a566-ce8c1b914ce1",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerMovement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "a64a6bb6-f152-41b6-802c-0f0018a16344",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "PlayerMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "e5c6b740-c34a-4eb6-8551-646534d04f32",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "PlayerMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "6eeb7330-12e3-44dc-91fd-a15820b0e783",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "PlayerMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "a722220c-5a8b-4dfd-a4ca-6564c4039484",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "PlayerMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "30b7c681-5ba7-4299-b23a-a06f71f3eac9",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "PlayerEnableLook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5ec9f7f0-7443-410a-aa2e-323d22b4f363",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "PlayerLook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da1a51e4-3b6b-4028-a568-10fd5693e082",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "StopFlying",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

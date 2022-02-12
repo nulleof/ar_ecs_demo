@@ -6,7 +6,7 @@ namespace ScriptsAndPrefabs {
 
 	[GenerateAuthoringComponent]
 	[Serializable]
-	public struct VelocityComponent : IComponentData {
+	public struct Velocity_AC : IComponentData {
 
 		public float3 value;
 

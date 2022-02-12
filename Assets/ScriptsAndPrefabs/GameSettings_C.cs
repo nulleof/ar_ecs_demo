@@ -4,7 +4,7 @@ using Unity.Entities;
 namespace ScriptsAndPrefabs {
 
 	[Serializable]
-	public struct GameSettingsComponent : IComponentData {
+	public struct GameSettings_C : IComponentData {
 
 		public float asteroidVelocity;
 		public float playerForce;

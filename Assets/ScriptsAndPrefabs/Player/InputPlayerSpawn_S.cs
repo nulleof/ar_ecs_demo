@@ -1,10 +1,11 @@
 using Unity.Entities;
 using Unity.Rendering;
+using UnityEngine.InputSystem;
 
 namespace ScriptsAndPrefabs.Player {
 
 	[UpdateInGroup(typeof(StructuralChangePresentationSystemGroup))]
-	public class InputSpawn_S : SystemBase {
+	public class InputPlayerSpawn_S : SystemBase {
 
 		private Entity playerPrefab;
 
@@ -18,21 +19,25 @@ namespace ScriptsAndPrefabs.Player {
 			this.playerInputControl = new PlayerInputControl();
 			this.playerInputControl.PlayerInput.Enable();
 
+			RequireSingletonForUpdate<PlayerSettings_AC>();
+
 		}
 
 		protected override void OnUpdate() {
 			if (this.playerPrefab == Entity.Null) {
 
-				this.playerPrefab = GetSingleton<PlayerAuthoringComponent>().prefab;
+				this.playerPrefab = GetSingleton<Player_AC>().prefab;
 				// return;
 
 			}
 
-			var shouldSpawn = this.playerInputControl.PlayerInput.SpawnPlayer.triggered;
+			var playerSettings = GetSingleton<PlayerSettings_AC>();
+
+			var shouldSpawn = this.playerInputControl.PlayerInput.SpawnPlayer.phase == InputActionPhase.Started;
 
 			var playerCount = this.playerQuery.CalculateEntityCountWithoutFiltering();
 
-			if (playerCount < 1 && shouldSpawn) {
+			if (playerCount < 1 && (shouldSpawn == true || playerSettings.spawnPlayerOnStart == true)) {
 
 				EntityManager.Instantiate(this.playerPrefab);
 

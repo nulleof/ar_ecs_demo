@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ScriptsAndPrefabs {
 
 	[DisallowMultipleComponent]
-	public class SetGameSettingsSystem : MonoBehaviour, IConvertGameObjectToEntity {
+	public class SetGameSettings_S : MonoBehaviour, IConvertGameObjectToEntity {
 
 		public float asteroidVelocity = 10f;
 		public float playerForce = 50f;
@@ -18,7 +18,7 @@ namespace ScriptsAndPrefabs {
 
 		public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem) {
 
-			var settings = default(GameSettingsComponent);
+			var settings = default(GameSettings_C);
 
 			settings.asteroidVelocity = this.asteroidVelocity;
 			settings.playerForce = this.playerForce;
@@ -32,6 +32,7 @@ namespace ScriptsAndPrefabs {
 			dstManager.AddComponentData(entity, settings);
 
 		}
+
 	}
 
 }

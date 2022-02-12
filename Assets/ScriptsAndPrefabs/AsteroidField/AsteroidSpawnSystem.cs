@@ -17,8 +17,8 @@ namespace ScriptsAndPrefabs.AsteroidField {
 
 			this.asteroidQuery = GetEntityQuery(ComponentType.ReadWrite<AsteroidTag>());
 			this.beginSimECB = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
-			this.gameSettingsQuery = GetEntityQuery(ComponentType.ReadOnly<GameSettingsComponent>());
-		
+			this.gameSettingsQuery = GetEntityQuery(ComponentType.ReadOnly<GameSettings_C>());
+
 			RequireForUpdate(gameSettingsQuery);
 
 		}
@@ -34,7 +34,7 @@ namespace ScriptsAndPrefabs.AsteroidField {
 
 			}
 
-			var settings = GetSingleton<GameSettingsComponent>();
+			var settings = GetSingleton<GameSettings_C>();
 			var commandBuffer = beginSimECB.CreateCommandBuffer();
 			var count = this.asteroidQuery.CalculateEntityCountWithoutFiltering();
 			// ECS funny business
@@ -49,7 +49,7 @@ namespace ScriptsAndPrefabs.AsteroidField {
 				rand = rand,
 			};
 
-		
+
 			this.beginSimECB.AddJobHandleForProducer(job.Schedule());
 
 		}
@@ -61,7 +61,7 @@ namespace ScriptsAndPrefabs.AsteroidField {
 		public EntityCommandBuffer commandBuffer;
 		public int count;
 		public Random rand;
-		public GameSettingsComponent settings;
+		public GameSettings_C settings;
 		public Entity prefab;
 
 		public void Execute() {
@@ -69,11 +69,11 @@ namespace ScriptsAndPrefabs.AsteroidField {
 			for (int i = count; i < this.settings.numAsteroids; ++i) {
 
 				var padding = 0.1f;
-			
+
 				var boundPosX = SpawnJob.BoundaryPosition(this.settings.levelWidth, padding);
 				var boundPosY = SpawnJob.BoundaryPosition(this.settings.levelHeight, padding);
 				var boundPosZ = SpawnJob.BoundaryPosition(this.settings.levelDepth, padding);
-			
+
 				var xPos = this.rand.NextFloat(-boundPosX, boundPosX);
 				var yPos = this.rand.NextFloat(-boundPosY, boundPosY);
 				var zPos = this.rand.NextFloat(-boundPosZ, boundPosZ);
@@ -81,7 +81,7 @@ namespace ScriptsAndPrefabs.AsteroidField {
 				var chooseFace = this.rand.NextInt(0, 6);
 
 				switch (chooseFace) {
-				
+
 					case 0:
 						xPos = -boundPosX;
 						break;
@@ -100,7 +100,7 @@ namespace ScriptsAndPrefabs.AsteroidField {
 					case 5:
 						zPos = boundPosZ;
 						break;
-				
+
 				}
 
 				var pos = new Translation {
@@ -111,16 +111,16 @@ namespace ScriptsAndPrefabs.AsteroidField {
 				commandBuffer.SetComponent(e, pos);
 
 				var randomVelocity = SpawnJob.RandomVelocity(ref rand, settings.asteroidVelocity);
-				var vel = new VelocityComponent {
+				var vel = new Velocity_AC {
 					value = randomVelocity,
 				};
-				
+
 				commandBuffer.SetComponent(e, vel);
 
 			}
-		
+
 		}
-	
+
 		private static float BoundaryPosition(float length, float boundPadding) {
 
 			return length / 2 - boundPadding;

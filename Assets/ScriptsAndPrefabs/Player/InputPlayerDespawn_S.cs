@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ScriptsAndPrefabs.Player {
 
 	[UpdateInGroup(typeof(UpdatePresentationSystemGroup))]
-	public class InputDespawn_S : SystemBase {
+	public class InputPlayerDespawn_S : SystemBase {
 
 		private EntityQuery playerQuery;
 		private PlayerInputControl playerInputControl;
