@@ -1,0 +1,69 @@
+{
+    "name": "PlayerInputControl",
+    "maps": [
+        {
+            "name": "PlayerInput",
+            "id": "91426e53-f9e8-46c6-9a65-24de22105f6d",
+            "actions": [
+                {
+                    "name": "SpawnPlayer",
+                    "type": "Button",
+                    "id": "f25ea3bb-b509-49ff-840b-da611b477767",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DespawnPlayer",
+                    "type": "Button",
+                    "id": "e8b4dd5b-1082-4172-a666-66b0f2e03600",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8b0b79d4-9f49-4d3d-830d-5d93e271f015",
+                    "path": "<Keyboard>/leftBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "SpawnPlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bdbfd1c7-aaa8-42fb-93b4-5ce0c5fda4f9",
+                    "path": "<Keyboard>/rightBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "DespawnPlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PCPlayer",
+            "bindingGroup": "PCPlayer",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

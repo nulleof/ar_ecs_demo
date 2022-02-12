@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-namespace ScriptsAndPrefabs {
+namespace ScriptsAndPrefabs.AsteroidField {
 
 	[UpdateInGroup(typeof(LateSimulationSystemGroup))]
 	public class AsteroidDestructionSystem : SystemBase {

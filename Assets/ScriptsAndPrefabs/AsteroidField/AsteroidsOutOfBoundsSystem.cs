@@ -2,7 +2,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using UnityEngine;
 
-namespace ScriptsAndPrefabs {
+namespace ScriptsAndPrefabs.AsteroidField {
 
 	[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 	[UpdateBefore(typeof(EndFixedStepSimulationEntityCommandBufferSystem))]

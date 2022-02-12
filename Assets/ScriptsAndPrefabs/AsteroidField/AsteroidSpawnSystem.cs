@@ -1,13 +1,10 @@
 using System.Diagnostics;
-using System.Numerics;
-using Unity.Burst;
-using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-namespace ScriptsAndPrefabs {
+namespace ScriptsAndPrefabs.AsteroidField {
 
 	public class AsteroidSpawnSystem : SystemBase {
 

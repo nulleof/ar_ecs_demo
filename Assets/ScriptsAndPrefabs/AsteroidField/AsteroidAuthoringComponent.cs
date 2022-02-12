@@ -1,7 +1,7 @@
 using System;
 using Unity.Entities;
 
-namespace ScriptsAndPrefabs {
+namespace ScriptsAndPrefabs.AsteroidField {
 
 	[GenerateAuthoringComponent]
 	[Serializable]
