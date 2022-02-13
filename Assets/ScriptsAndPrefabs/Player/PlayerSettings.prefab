@@ -45,3 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensibilityHor: 1
   sensibilityVert: 1
+  spawnPlayerOnStart: 0
+  bulletVelocity: 0
+  weaponCooldown: 1
