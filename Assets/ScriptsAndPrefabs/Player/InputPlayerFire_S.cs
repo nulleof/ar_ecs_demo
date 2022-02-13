@@ -33,7 +33,7 @@ namespace ScriptsAndPrefabs.Player {
 
 					commandBuffer.AddComponent(nativeThreadIndex, gunEntity, new WeaponFire_C());
 
-				}).Schedule();
+				}).ScheduleParallel();
 
 			this.beginSimECB.AddJobHandleForProducer(Dependency);
 
