@@ -5,7 +5,7 @@ namespace ScriptsAndPrefabs.AsteroidField {
 
 	[GenerateAuthoringComponent]
 	[Serializable]
-	public struct AsteroidAuthoringComponent : IComponentData {
+	public struct Asteroid_AC : IComponentData {
 
 		public Entity prefab;
 

@@ -27,7 +27,7 @@ namespace ScriptsAndPrefabs.AsteroidField {
 
 			if (this.asteroidPrefab == Entity.Null) {
 
-				this.asteroidPrefab = GetSingleton<AsteroidAuthoringComponent>().prefab;
+				this.asteroidPrefab = GetSingleton<Asteroid_AC>().prefab;
 
 				// ECS funny business
 				return;

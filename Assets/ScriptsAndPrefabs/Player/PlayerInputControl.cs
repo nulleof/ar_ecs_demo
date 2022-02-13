@@ -6,14 +6,12 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace ScriptsAndPrefabs.Player {
-
-	public class @PlayerInputControl : IInputActionCollection, IDisposable {
-
-		public InputActionAsset asset { get; }
-
-		public @PlayerInputControl() {
-			asset = InputActionAsset.FromJson(@"{
+public class @PlayerInputControl : IInputActionCollection, IDisposable
+{
+    public InputActionAsset asset { get; }
+    public @PlayerInputControl()
+    {
+        asset = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerInputControl"",
     ""maps"": [
         {
@@ -64,6 +62,14 @@ namespace ScriptsAndPrefabs.Player {
                     ""name"": ""StopFlying"",
                     ""type"": ""Button"",
                     ""id"": ""020cbb82-a271-4d5c-beee-44e6119334c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""3660f6a3-cf99-42a1-bd10-b2ea94895c4a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold""
@@ -179,6 +185,17 @@ namespace ScriptsAndPrefabs.Player {
                     ""action"": ""StopFlying"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab24a359-eb8f-4a8f-8202-44d3a233262c"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PCPlayer"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -202,163 +219,158 @@ namespace ScriptsAndPrefabs.Player {
         }
     ]
 }");
-			// PlayerInput
-			m_PlayerInput = asset.FindActionMap("PlayerInput", throwIfNotFound: true);
-			m_PlayerInput_SpawnPlayer = m_PlayerInput.FindAction("SpawnPlayer", throwIfNotFound: true);
-			m_PlayerInput_DespawnPlayer = m_PlayerInput.FindAction("DespawnPlayer", throwIfNotFound: true);
-			m_PlayerInput_PlayerMovement = m_PlayerInput.FindAction("PlayerMovement", throwIfNotFound: true);
-			m_PlayerInput_PlayerLook = m_PlayerInput.FindAction("PlayerLook", throwIfNotFound: true);
-			m_PlayerInput_PlayerEnableLook = m_PlayerInput.FindAction("PlayerEnableLook", throwIfNotFound: true);
-			m_PlayerInput_StopFlying = m_PlayerInput.FindAction("StopFlying", throwIfNotFound: true);
-		}
+        // PlayerInput
+        m_PlayerInput = asset.FindActionMap("PlayerInput", throwIfNotFound: true);
+        m_PlayerInput_SpawnPlayer = m_PlayerInput.FindAction("SpawnPlayer", throwIfNotFound: true);
+        m_PlayerInput_DespawnPlayer = m_PlayerInput.FindAction("DespawnPlayer", throwIfNotFound: true);
+        m_PlayerInput_PlayerMovement = m_PlayerInput.FindAction("PlayerMovement", throwIfNotFound: true);
+        m_PlayerInput_PlayerLook = m_PlayerInput.FindAction("PlayerLook", throwIfNotFound: true);
+        m_PlayerInput_PlayerEnableLook = m_PlayerInput.FindAction("PlayerEnableLook", throwIfNotFound: true);
+        m_PlayerInput_StopFlying = m_PlayerInput.FindAction("StopFlying", throwIfNotFound: true);
+        m_PlayerInput_Fire = m_PlayerInput.FindAction("Fire", throwIfNotFound: true);
+    }
 
-		public void Dispose() {
-			UnityEngine.Object.Destroy(asset);
-		}
+    public void Dispose()
+    {
+        UnityEngine.Object.Destroy(asset);
+    }
 
-		public InputBinding? bindingMask {
-			get => asset.bindingMask;
-			set => asset.bindingMask = value;
-		}
+    public InputBinding? bindingMask
+    {
+        get => asset.bindingMask;
+        set => asset.bindingMask = value;
+    }
 
-		public ReadOnlyArray<InputDevice>? devices {
-			get => asset.devices;
-			set => asset.devices = value;
-		}
+    public ReadOnlyArray<InputDevice>? devices
+    {
+        get => asset.devices;
+        set => asset.devices = value;
+    }
 
-		public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
+    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
-		public bool Contains(InputAction action) {
-			return asset.Contains(action);
-		}
+    public bool Contains(InputAction action)
+    {
+        return asset.Contains(action);
+    }
 
-		public IEnumerator<InputAction> GetEnumerator() {
-			return asset.GetEnumerator();
-		}
+    public IEnumerator<InputAction> GetEnumerator()
+    {
+        return asset.GetEnumerator();
+    }
 
-		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
-		}
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
-		public void Enable() {
-			asset.Enable();
-		}
+    public void Enable()
+    {
+        asset.Enable();
+    }
 
-		public void Disable() {
-			asset.Disable();
-		}
+    public void Disable()
+    {
+        asset.Disable();
+    }
 
-		// PlayerInput
-		private readonly InputActionMap m_PlayerInput;
-		private IPlayerInputActions m_PlayerInputActionsCallbackInterface;
-		private readonly InputAction m_PlayerInput_SpawnPlayer;
-		private readonly InputAction m_PlayerInput_DespawnPlayer;
-		private readonly InputAction m_PlayerInput_PlayerMovement;
-		private readonly InputAction m_PlayerInput_PlayerLook;
-		private readonly InputAction m_PlayerInput_PlayerEnableLook;
-		private readonly InputAction m_PlayerInput_StopFlying;
-
-		public struct PlayerInputActions {
-
-			private @PlayerInputControl m_Wrapper;
-
-			public PlayerInputActions(@PlayerInputControl wrapper) {
-				m_Wrapper = wrapper;
-			}
-
-			public InputAction @SpawnPlayer => m_Wrapper.m_PlayerInput_SpawnPlayer;
-			public InputAction @DespawnPlayer => m_Wrapper.m_PlayerInput_DespawnPlayer;
-			public InputAction @PlayerMovement => m_Wrapper.m_PlayerInput_PlayerMovement;
-			public InputAction @PlayerLook => m_Wrapper.m_PlayerInput_PlayerLook;
-			public InputAction @PlayerEnableLook => m_Wrapper.m_PlayerInput_PlayerEnableLook;
-			public InputAction @StopFlying => m_Wrapper.m_PlayerInput_StopFlying;
-
-			public InputActionMap Get() {
-				return m_Wrapper.m_PlayerInput;
-			}
-
-			public void Enable() {
-				Get().Enable();
-			}
-
-			public void Disable() {
-				Get().Disable();
-			}
-
-			public bool enabled => Get().enabled;
-
-			public static implicit operator InputActionMap(PlayerInputActions set) {
-				return set.Get();
-			}
-
-			public void SetCallbacks(IPlayerInputActions instance) {
-				if (m_Wrapper.m_PlayerInputActionsCallbackInterface != null) {
-					@SpawnPlayer.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpawnPlayer;
-					@SpawnPlayer.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpawnPlayer;
-					@SpawnPlayer.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpawnPlayer;
-					@DespawnPlayer.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDespawnPlayer;
-					@DespawnPlayer.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDespawnPlayer;
-					@DespawnPlayer.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDespawnPlayer;
-					@PlayerMovement.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerMovement;
-					@PlayerMovement.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerMovement;
-					@PlayerMovement.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerMovement;
-					@PlayerLook.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerLook;
-					@PlayerLook.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerLook;
-					@PlayerLook.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerLook;
-					@PlayerEnableLook.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerEnableLook;
-					@PlayerEnableLook.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerEnableLook;
-					@PlayerEnableLook.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerEnableLook;
-					@StopFlying.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnStopFlying;
-					@StopFlying.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnStopFlying;
-					@StopFlying.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnStopFlying;
-				}
-
-				m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
-				if (instance != null) {
-					@SpawnPlayer.started += instance.OnSpawnPlayer;
-					@SpawnPlayer.performed += instance.OnSpawnPlayer;
-					@SpawnPlayer.canceled += instance.OnSpawnPlayer;
-					@DespawnPlayer.started += instance.OnDespawnPlayer;
-					@DespawnPlayer.performed += instance.OnDespawnPlayer;
-					@DespawnPlayer.canceled += instance.OnDespawnPlayer;
-					@PlayerMovement.started += instance.OnPlayerMovement;
-					@PlayerMovement.performed += instance.OnPlayerMovement;
-					@PlayerMovement.canceled += instance.OnPlayerMovement;
-					@PlayerLook.started += instance.OnPlayerLook;
-					@PlayerLook.performed += instance.OnPlayerLook;
-					@PlayerLook.canceled += instance.OnPlayerLook;
-					@PlayerEnableLook.started += instance.OnPlayerEnableLook;
-					@PlayerEnableLook.performed += instance.OnPlayerEnableLook;
-					@PlayerEnableLook.canceled += instance.OnPlayerEnableLook;
-					@StopFlying.started += instance.OnStopFlying;
-					@StopFlying.performed += instance.OnStopFlying;
-					@StopFlying.canceled += instance.OnStopFlying;
-				}
-			}
-
-		}
-
-		public PlayerInputActions @PlayerInput => new PlayerInputActions(this);
-		private int m_PCPlayerSchemeIndex = -1;
-
-		public InputControlScheme PCPlayerScheme {
-			get {
-				if (m_PCPlayerSchemeIndex == -1) m_PCPlayerSchemeIndex = asset.FindControlSchemeIndex("PCPlayer");
-				return asset.controlSchemes[m_PCPlayerSchemeIndex];
-			}
-		}
-
-		public interface IPlayerInputActions {
-
-			void OnSpawnPlayer(InputAction.CallbackContext context);
-			void OnDespawnPlayer(InputAction.CallbackContext context);
-			void OnPlayerMovement(InputAction.CallbackContext context);
-			void OnPlayerLook(InputAction.CallbackContext context);
-			void OnPlayerEnableLook(InputAction.CallbackContext context);
-			void OnStopFlying(InputAction.CallbackContext context);
-
-		}
-
-	}
-
+    // PlayerInput
+    private readonly InputActionMap m_PlayerInput;
+    private IPlayerInputActions m_PlayerInputActionsCallbackInterface;
+    private readonly InputAction m_PlayerInput_SpawnPlayer;
+    private readonly InputAction m_PlayerInput_DespawnPlayer;
+    private readonly InputAction m_PlayerInput_PlayerMovement;
+    private readonly InputAction m_PlayerInput_PlayerLook;
+    private readonly InputAction m_PlayerInput_PlayerEnableLook;
+    private readonly InputAction m_PlayerInput_StopFlying;
+    private readonly InputAction m_PlayerInput_Fire;
+    public struct PlayerInputActions
+    {
+        private @PlayerInputControl m_Wrapper;
+        public PlayerInputActions(@PlayerInputControl wrapper) { m_Wrapper = wrapper; }
+        public InputAction @SpawnPlayer => m_Wrapper.m_PlayerInput_SpawnPlayer;
+        public InputAction @DespawnPlayer => m_Wrapper.m_PlayerInput_DespawnPlayer;
+        public InputAction @PlayerMovement => m_Wrapper.m_PlayerInput_PlayerMovement;
+        public InputAction @PlayerLook => m_Wrapper.m_PlayerInput_PlayerLook;
+        public InputAction @PlayerEnableLook => m_Wrapper.m_PlayerInput_PlayerEnableLook;
+        public InputAction @StopFlying => m_Wrapper.m_PlayerInput_StopFlying;
+        public InputAction @Fire => m_Wrapper.m_PlayerInput_Fire;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerInputActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerInputActions instance)
+        {
+            if (m_Wrapper.m_PlayerInputActionsCallbackInterface != null)
+            {
+                @SpawnPlayer.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpawnPlayer;
+                @SpawnPlayer.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpawnPlayer;
+                @SpawnPlayer.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpawnPlayer;
+                @DespawnPlayer.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDespawnPlayer;
+                @DespawnPlayer.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDespawnPlayer;
+                @DespawnPlayer.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDespawnPlayer;
+                @PlayerMovement.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerMovement;
+                @PlayerMovement.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerMovement;
+                @PlayerMovement.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerMovement;
+                @PlayerLook.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerLook;
+                @PlayerLook.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerLook;
+                @PlayerLook.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerLook;
+                @PlayerEnableLook.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerEnableLook;
+                @PlayerEnableLook.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerEnableLook;
+                @PlayerEnableLook.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnPlayerEnableLook;
+                @StopFlying.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnStopFlying;
+                @StopFlying.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnStopFlying;
+                @StopFlying.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnStopFlying;
+                @Fire.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnFire;
+                @Fire.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnFire;
+                @Fire.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnFire;
+            }
+            m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @SpawnPlayer.started += instance.OnSpawnPlayer;
+                @SpawnPlayer.performed += instance.OnSpawnPlayer;
+                @SpawnPlayer.canceled += instance.OnSpawnPlayer;
+                @DespawnPlayer.started += instance.OnDespawnPlayer;
+                @DespawnPlayer.performed += instance.OnDespawnPlayer;
+                @DespawnPlayer.canceled += instance.OnDespawnPlayer;
+                @PlayerMovement.started += instance.OnPlayerMovement;
+                @PlayerMovement.performed += instance.OnPlayerMovement;
+                @PlayerMovement.canceled += instance.OnPlayerMovement;
+                @PlayerLook.started += instance.OnPlayerLook;
+                @PlayerLook.performed += instance.OnPlayerLook;
+                @PlayerLook.canceled += instance.OnPlayerLook;
+                @PlayerEnableLook.started += instance.OnPlayerEnableLook;
+                @PlayerEnableLook.performed += instance.OnPlayerEnableLook;
+                @PlayerEnableLook.canceled += instance.OnPlayerEnableLook;
+                @StopFlying.started += instance.OnStopFlying;
+                @StopFlying.performed += instance.OnStopFlying;
+                @StopFlying.canceled += instance.OnStopFlying;
+                @Fire.started += instance.OnFire;
+                @Fire.performed += instance.OnFire;
+                @Fire.canceled += instance.OnFire;
+            }
+        }
+    }
+    public PlayerInputActions @PlayerInput => new PlayerInputActions(this);
+    private int m_PCPlayerSchemeIndex = -1;
+    public InputControlScheme PCPlayerScheme
+    {
+        get
+        {
+            if (m_PCPlayerSchemeIndex == -1) m_PCPlayerSchemeIndex = asset.FindControlSchemeIndex("PCPlayer");
+            return asset.controlSchemes[m_PCPlayerSchemeIndex];
+        }
+    }
+    public interface IPlayerInputActions
+    {
+        void OnSpawnPlayer(InputAction.CallbackContext context);
+        void OnDespawnPlayer(InputAction.CallbackContext context);
+        void OnPlayerMovement(InputAction.CallbackContext context);
+        void OnPlayerLook(InputAction.CallbackContext context);
+        void OnPlayerEnableLook(InputAction.CallbackContext context);
+        void OnStopFlying(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
+    }
 }

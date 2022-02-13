@@ -52,6 +52,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Hold"
+                },
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "3660f6a3-cf99-42a1-bd10-b2ea94895c4a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold"
                 }
             ],
             "bindings": [
@@ -162,6 +170,17 @@
                     "processors": "",
                     "groups": "PCPlayer",
                     "action": "StopFlying",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab24a359-eb8f-4a8f-8202-44d3a233262c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PCPlayer",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

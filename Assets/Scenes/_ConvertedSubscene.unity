@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 1579084529}
   - component: {fileID: 1579084528}
   - component: {fileID: 1579084530}
+  - component: {fileID: 1579084531}
   m_Layer: 0
   m_Name: PrefabCollection
   m_TagString: Untagged
@@ -181,6 +182,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 7522021844294542853, guid: 3a80cf9ab1e4c4e6a801ed946c18b616, type: 3}
+--- !u!114 &1579084531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579084527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ec0077ecb0641d39d2a39a55520fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4324493676155401014, guid: 7943090c1547a49cc888e9a4b7f74a74, type: 3}
 --- !u!1001 &119452109820118148
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -235,6 +249,10 @@ PrefabInstance:
     - target: {fileID: 119452110683302230, guid: 32371c17e244a40ae8a8700a07f9a742, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2299364620405448770, guid: 32371c17e244a40ae8a8700a07f9a742, type: 3}
+      propertyPath: weaponCooldown
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32371c17e244a40ae8a8700a07f9a742, type: 3}

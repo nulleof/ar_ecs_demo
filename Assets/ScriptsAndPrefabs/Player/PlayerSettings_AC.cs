@@ -11,10 +11,10 @@ namespace ScriptsAndPrefabs.Player {
 		[Header("Mouse sensibility")] public float sensibilityHor;
 		public float sensibilityVert;
 
-		[Header("Mouse vertical clamp angle")] public float maxAngle;
-		public float minAngle;
-
 		[Header("Spawn player on start")] public bool spawnPlayerOnStart;
+
+		public float bulletVelocity;
+		public float weaponCooldown;
 
 	}
 
