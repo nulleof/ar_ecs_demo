@@ -1,34 +1,41 @@
 using Unity.Entities;
 using Unity.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace ScriptsAndPrefabs.Player {
 
 	[UpdateInGroup(typeof(UpdatePresentationSystemGroup))]
 	public class InputPlayerDespawn_S : SystemBase {
 
-		private EntityQuery playerQuery;
+		private EndSimulationEntityCommandBufferSystem endSimECB;
 		private PlayerInputControl playerInputControl;
 
 		protected override void OnCreate() {
 
-			this.playerQuery = GetEntityQuery(ComponentType.ReadOnly<PlayerTag>());
-
+			this.endSimECB = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
 			this.playerInputControl = new PlayerInputControl();
 			this.playerInputControl.PlayerInput.Enable();
+
+			var query = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerTag>());
+			RequireForUpdate(query);
 
 		}
 
 		protected override void OnUpdate() {
 
-			var shouldDespawn = this.playerInputControl.PlayerInput.DespawnPlayer.triggered;
-			var playerCount = this.playerQuery.CalculateEntityCountWithoutFiltering();
+			var shouldDespawn = this.playerInputControl.PlayerInput.DespawnPlayer.phase == InputActionPhase.Started;
 
-			if (playerCount >= 1 && shouldDespawn) {
+			if (shouldDespawn == false) return;
 
-				EntityManager.DestroyEntity(this.playerQuery);
+			var commandBuffer = this.endSimECB.CreateCommandBuffer().AsParallelWriter();
 
-			}
+			Entities
+				.WithAll<PlayerTag>()
+				.ForEach((Entity e, int nativeThreadIndex) => { commandBuffer.DestroyEntity(nativeThreadIndex, e); })
+				.ScheduleParallel();
+
+			this.endSimECB.AddJobHandleForProducer(Dependency);
 
 		}
 

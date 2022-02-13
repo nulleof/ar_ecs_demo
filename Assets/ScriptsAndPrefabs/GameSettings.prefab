@@ -72,7 +72,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1608614857734378308, guid: 13d14e5db31ed43c49d87beff8d552c5, type: 3}
       propertyPath: spawnPlayerOnStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3156621225933798482, guid: 13d14e5db31ed43c49d87beff8d552c5, type: 3}
       propertyPath: m_Name
