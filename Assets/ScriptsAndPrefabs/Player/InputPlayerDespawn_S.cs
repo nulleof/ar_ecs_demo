@@ -24,7 +24,7 @@ namespace ScriptsAndPrefabs.Player {
 
 		protected override void OnUpdate() {
 
-			var shouldDespawn = this.playerInputControl.PlayerInput.DespawnPlayer.phase == InputActionPhase.Started;
+			var shouldDespawn = this.playerInputControl.PlayerInput.DespawnPlayer.phase == InputActionPhase.Performed;
 
 			if (shouldDespawn == false) return;
 

@@ -11,7 +11,8 @@
                     "id": "f25ea3bb-b509-49ff-840b-da611b477767",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "DespawnPlayer",
@@ -19,7 +20,8 @@
                     "id": "e8b4dd5b-1082-4172-a666-66b0f2e03600",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "PlayerMovement",
@@ -27,7 +29,8 @@
                     "id": "0405152a-3b4d-4f59-b9b0-d27607439729",
                     "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "PlayerLook",
@@ -35,7 +38,8 @@
                     "id": "6f5575b5-37f5-476d-82b1-768a902fdf20",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "PlayerEnableLook",
@@ -43,7 +47,8 @@
                     "id": "21a20aea-27e3-45ed-999f-8432dcb44803",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": "Hold",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "StopFlying",
@@ -51,7 +56,8 @@
                     "id": "020cbb82-a271-4d5c-beee-44e6119334c3",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": "Hold",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Fire",
@@ -59,7 +65,8 @@
                     "id": "3660f6a3-cf99-42a1-bd10-b2ea94895c4a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": "Hold",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

@@ -33,7 +33,7 @@ namespace ScriptsAndPrefabs.Player {
 
 			var playerSettings = GetSingleton<PlayerSettings_AC>();
 
-			var shouldSpawn = this.playerInputControl.PlayerInput.SpawnPlayer.phase == InputActionPhase.Started;
+			var shouldSpawn = this.playerInputControl.PlayerInput.SpawnPlayer.phase == InputActionPhase.Performed;
 
 			var playerCount = this.playerQuery.CalculateEntityCountWithoutFiltering();
 
