@@ -16,7 +16,8 @@ public class Weapon_AC : MonoBehaviour, IConvertGameObjectToEntity {
 		dstManager.AddComponentData<Weapon_C>(entity, new Weapon_C() {
 			cooldownLeft = 0,
 			spawnerLocalPos = spawnerTransform.localPosition,
-			spawnerLocalRot = spawnerTransform.localRotation,
+			localForward = math.rotate(spawnerTransform.localRotation, math.forward()),
+			localUp = math.rotate(spawnerTransform.localRotation, math.up()),
 		});
 
 	}

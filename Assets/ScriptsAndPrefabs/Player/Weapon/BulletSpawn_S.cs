@@ -1,3 +1,4 @@
+using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -30,13 +31,21 @@ namespace ScriptsAndPrefabs.Player.Weapon {
 
 					if (weaponC.cooldownLeft <= 0) {
 
+						// float3 gunDirectionV = localToWorld.Rotation.value * weaponC.localForward;
+						var gunDirectionV = float3.zero;
+						
+						Debug.Log($"gun direction = {gunDirectionV}");
+
 						// spawn bullet
 						var bulletE = commandBuffer.Instantiate(nativeThreadIndex, bulletPrefab);
 						commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Translation() {
 							Value = localToWorld.Position + weaponC.spawnerLocalPos,
 						});
+						// commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Rotation() {
+						// 	Value = quaternion.LookRotation(gunDirectionV, localToWorld.Up),
+						// });
 						commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Velocity_AC() {
-							value = math.mul(math.mul(localToWorld.Rotation, weaponC.spawnerLocalRot), new float3(0, 0, 1f)) *
+							value = gunDirectionV *
 							        playerSettings.bulletVelocity,
 						});
 

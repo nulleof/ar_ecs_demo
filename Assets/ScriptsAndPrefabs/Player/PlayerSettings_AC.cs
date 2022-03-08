@@ -16,6 +16,8 @@ namespace ScriptsAndPrefabs.Player {
 		public float bulletVelocity;
 		public float weaponCooldown;
 
+		[Header("Look mouse type")] public bool useRightClickLook;
+
 	}
 
 }

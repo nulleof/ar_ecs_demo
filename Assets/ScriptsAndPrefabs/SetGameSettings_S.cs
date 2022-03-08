@@ -15,6 +15,7 @@ namespace ScriptsAndPrefabs {
 		public int levelHeight = 2048;
 		public int levelDepth = 2048;
 
+		[Header("Debug")] public bool drawRaysMuzzles = false;
 
 		public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem) {
 
@@ -30,6 +31,11 @@ namespace ScriptsAndPrefabs {
 			settings.levelDepth = this.levelDepth;
 
 			dstManager.AddComponentData(entity, settings);
+
+			var debugSettings = default(DebugSettings_C);
+			debugSettings.ShowGunMuzzleRays = this.drawRaysMuzzles;
+
+			dstManager.AddComponentData(entity, debugSettings);
 
 		}
 

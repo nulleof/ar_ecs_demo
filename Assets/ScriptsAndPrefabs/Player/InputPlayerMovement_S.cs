@@ -31,7 +31,12 @@ namespace ScriptsAndPrefabs.Player {
 
 			var look = float2.zero;
 
-			if (this.playerInputControl.PlayerInput.PlayerEnableLook.phase == InputActionPhase.Performed) {
+			var shouldLook = 
+				playerSettings.useRightClickLook == false ||
+				(playerSettings.useRightClickLook == true &&
+				 this.playerInputControl.PlayerInput.PlayerEnableLook.phase == InputActionPhase.Performed);
+			
+			if (shouldLook == true) {
 
 				look = this.playerInputControl.PlayerInput.PlayerLook.ReadValue<Vector2>();
 

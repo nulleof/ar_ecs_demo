@@ -10,7 +10,9 @@ namespace ScriptsAndPrefabs.Player.Weapon {
 
 		public float cooldownLeft;
 		public float3 spawnerLocalPos;
-		public quaternion spawnerLocalRot;
+		// Barrel or muzzle
+		public float3 localForward;
+		public float3 localUp;
 
 	}
 
