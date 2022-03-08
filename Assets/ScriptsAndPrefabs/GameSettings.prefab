@@ -73,6 +73,14 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1608614857734378308, guid: 13d14e5db31ed43c49d87beff8d552c5, type: 3}
+      propertyPath: sensibilityHor
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608614857734378308, guid: 13d14e5db31ed43c49d87beff8d552c5, type: 3}
+      propertyPath: sensibilityVert
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608614857734378308, guid: 13d14e5db31ed43c49d87beff8d552c5, type: 3}
       propertyPath: spawnPlayerOnStart
       value: 0
       objectReference: {fileID: 0}

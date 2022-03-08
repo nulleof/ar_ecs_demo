@@ -46,7 +46,7 @@ namespace ScriptsAndPrefabs.Player {
 
 			Entities
 				.WithAll<PlayerTag>()
-				.ForEach((Entity e, int nativeThreadIndex, ref Rotation rot, ref Velocity_AC velocity) => {
+				.ForEach((Entity e, int nativeThreadIndex, ref Velocity_AC velocity, ref Rotation rot, in LocalToWorld localToWorld) => {
 
 					if (brakeActive) {
 
@@ -57,25 +57,22 @@ namespace ScriptsAndPrefabs.Player {
 
 						var moveProjectV = new float3(moveVector.x, 0, moveVector.y);
 
-						velocity.value += (math.mul(rot.Value, moveProjectV).xyz) * settings.playerForce * deltaTime;
+						velocity.value += (math.mul(localToWorld.Rotation, moveProjectV).xyz) * settings.playerForce * deltaTime;
 
 					}
 
 					if (look.x != 0f || look.y != 0f) {
 
-						var lookSpeedH = playerSettings.sensibilityHor;
-						var lookSpeedV = playerSettings.sensibilityVert;
+						var lookH = playerSettings.sensibilityHor * look.x;
+						var lookV = playerSettings.sensibilityVert * look.y;
 
-						Quaternion currQuaternion = rot.Value;
-						float yaw = currQuaternion.eulerAngles.y;
-						float pitch = currQuaternion.eulerAngles.x;
+						var forward = math.normalize(localToWorld.Forward);
+						var right = math.normalize(localToWorld.Right);
+						var up = math.normalize(localToWorld.Up);
 
-						yaw += lookSpeedV * look.x;
-						pitch -= lookSpeedH * look.y;
+						var targetV = forward + (right * lookH) + (up * lookV);
 
-						var newQuat = Quaternion.identity;
-						newQuat.eulerAngles = new Vector3(pitch, yaw, 0);
-						rot.Value = newQuat;
+						rot.Value = quaternion.LookRotation(targetV, up);
 
 					}
 
