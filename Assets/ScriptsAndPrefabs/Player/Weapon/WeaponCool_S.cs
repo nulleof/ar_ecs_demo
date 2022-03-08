@@ -9,8 +9,7 @@ namespace ScriptsAndPrefabs.Player.Weapon {
 			var deltaTime = Time.DeltaTime;
 
 			Entities
-				.WithAll<Weapon_C>()
-				.ForEach((ref Weapon_C weaponC) => { weaponC.cooldownLeft -= deltaTime; })
+				.ForEach((ref Weapon_AC weaponC) => { weaponC.cooldownLeft -= deltaTime; })
 				.ScheduleParallel();
 
 		}

@@ -93,8 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3586368521322024951}
   - component: {fileID: 4731183838611470097}
+  - component: {fileID: 3296983854155045600}
   m_Layer: 0
-  m_Name: BulletSpawner
+  m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,6 +126,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc9954592e854ae780501e6d9502edba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3296983854155045600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310016919437373696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e72f67d7165423790be4cc0f82680d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5295940294173269337
@@ -386,8 +399,8 @@ GameObject:
   - component: {fileID: 2699370146355168796}
   - component: {fileID: 8615273441016388862}
   - component: {fileID: 1438506614359705056}
-  - component: {fileID: 4663831807034615741}
   - component: {fileID: 5507114954383505339}
+  - component: {fileID: 4293700114936881149}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -461,19 +474,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4663831807034615741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8900734177502002773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52880b0b87324ec6a7f795959badf9d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnerTransform: {fileID: 3586368521322024951}
 --- !u!114 &5507114954383505339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,3 +487,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7522021844294542853}
+--- !u!114 &4293700114936881149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8900734177502002773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa0a69eb56d4eaeaa923eef9cad59ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownLeft: 0
+  muzzle: {fileID: 1310016919437373696}

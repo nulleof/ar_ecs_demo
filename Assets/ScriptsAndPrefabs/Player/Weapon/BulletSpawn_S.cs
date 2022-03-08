@@ -25,35 +25,26 @@ namespace ScriptsAndPrefabs.Player.Weapon {
 			var playerSettings = GetSingleton<PlayerSettings_AC>();
 
 			Entities
-				.WithAll<Weapon_C>()
-				.WithAll<WeaponFire_C>()
-				.ForEach((Entity e, int nativeThreadIndex, ref Weapon_C weaponC, in LocalToWorld localToWorld) => {
+				.WithAll<Muzzle_AC>()
+				.WithAll<MuzzleFire_C>()
+				.ForEach((Entity e, int nativeThreadIndex, in LocalToWorld localToWorld) => {
 
-					if (weaponC.cooldownLeft <= 0) {
+					var gunDirectionV = math.normalize(localToWorld.Forward);
 
-						// float3 gunDirectionV = localToWorld.Rotation.value * weaponC.localForward;
-						var gunDirectionV = float3.zero;
-						
-						Debug.Log($"gun direction = {gunDirectionV}");
+					// spawn bullet
+					var bulletE = commandBuffer.Instantiate(nativeThreadIndex, bulletPrefab);
+					commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Translation() {
+						Value = localToWorld.Position,
+					});
+					commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Rotation() {
+						Value = quaternion.LookRotation(gunDirectionV, localToWorld.Up),
+					});
+					commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Velocity_AC() {
+						value = gunDirectionV *
+						        playerSettings.bulletVelocity,
+					});
 
-						// spawn bullet
-						var bulletE = commandBuffer.Instantiate(nativeThreadIndex, bulletPrefab);
-						commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Translation() {
-							Value = localToWorld.Position + weaponC.spawnerLocalPos,
-						});
-						// commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Rotation() {
-						// 	Value = quaternion.LookRotation(gunDirectionV, localToWorld.Up),
-						// });
-						commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Velocity_AC() {
-							value = gunDirectionV *
-							        playerSettings.bulletVelocity,
-						});
-
-						weaponC.cooldownLeft = playerSettings.weaponCooldown;
-
-					}
-
-					commandBuffer.RemoveComponent<WeaponFire_C>(nativeThreadIndex, e);
+					commandBuffer.RemoveComponent<MuzzleFire_C>(nativeThreadIndex, e);
 
 				}).ScheduleParallel();
 

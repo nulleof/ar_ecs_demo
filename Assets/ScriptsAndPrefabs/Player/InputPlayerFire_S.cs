@@ -1,5 +1,6 @@
 using ScriptsAndPrefabs.Player.Weapon;
 using Unity.Entities;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace ScriptsAndPrefabs.Player {
@@ -20,14 +21,14 @@ namespace ScriptsAndPrefabs.Player {
 		protected override void OnUpdate() {
 
 			var fire = this.playerInputControl.PlayerInput.Fire.phase == InputActionPhase.Performed;
+			
+			if (fire == false) return;
+
 			var commandBuffer = this.beginSimECB.CreateCommandBuffer().AsParallelWriter();
 
 			Entities
 				.WithAll<PlayerTag>()
-				.WithAll<PlayerWeaponHandler_AC>()
 				.ForEach((Entity e, int nativeThreadIndex, in PlayerWeaponHandler_AC gunHandler) => {
-
-					if (fire == false) return;
 
 					var gunEntity = gunHandler.weapon;
 
