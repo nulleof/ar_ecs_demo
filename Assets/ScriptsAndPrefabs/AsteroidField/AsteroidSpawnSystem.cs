@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
 
 namespace ScriptsAndPrefabs.AsteroidField {
@@ -111,8 +112,8 @@ namespace ScriptsAndPrefabs.AsteroidField {
 				commandBuffer.SetComponent(e, pos);
 
 				var randomVelocity = SpawnJob.RandomVelocity(ref rand, settings.asteroidVelocity);
-				var vel = new Velocity_AC {
-					value = randomVelocity,
+				var vel = new PhysicsVelocity() {
+					Linear = randomVelocity,
 				};
 
 				commandBuffer.SetComponent(e, vel);
