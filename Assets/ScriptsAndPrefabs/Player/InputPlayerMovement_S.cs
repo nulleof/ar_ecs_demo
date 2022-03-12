@@ -1,5 +1,6 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -46,18 +47,18 @@ namespace ScriptsAndPrefabs.Player {
 
 			Entities
 				.WithAll<PlayerTag>()
-				.ForEach((Entity e, int nativeThreadIndex, ref Velocity_AC velocity, ref Rotation rot, in LocalToWorld localToWorld) => {
+				.ForEach((Entity e, int nativeThreadIndex, ref PhysicsVelocity velocity, ref Rotation rot, in LocalToWorld localToWorld) => {
 
 					if (brakeActive) {
 
-						velocity.value = float3.zero;
+						velocity.Linear = float3.zero;
 
 					}
 					else if (moveVector != Vector2.zero) {
 
 						var moveProjectV = new float3(moveVector.x, 0, moveVector.y);
 
-						velocity.value += (math.mul(localToWorld.Rotation, moveProjectV).xyz) * settings.playerForce * deltaTime;
+						velocity.Linear += (math.mul(localToWorld.Rotation, moveProjectV).xyz) * settings.playerForce * deltaTime;
 
 					}
 

@@ -1,6 +1,7 @@
 using System;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -39,8 +40,8 @@ namespace ScriptsAndPrefabs.Player.Weapon {
 					commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Rotation() {
 						Value = quaternion.LookRotation(gunDirectionV, localToWorld.Up),
 					});
-					commandBuffer.SetComponent(nativeThreadIndex, bulletE, new Velocity_AC() {
-						value = gunDirectionV *
+					commandBuffer.SetComponent(nativeThreadIndex, bulletE, new PhysicsVelocity() {
+						Linear = gunDirectionV *
 						        playerSettings.bulletVelocity,
 					});
 
