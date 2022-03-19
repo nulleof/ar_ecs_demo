@@ -1,8 +1,11 @@
 using System;
 using Unity.Assertions;
+using Unity.Collections;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Physics;
+using Unity.Physics.Systems;
 using UnityEngine;
 
 namespace ScriptsAndPrefabs.Physics {
@@ -103,10 +106,242 @@ namespace ScriptsAndPrefabs.Physics {
 		}
 
 	}
+	
+	public struct ExcludeFromTriggerEventConversion : IComponentData {}
 
 	public class DynamicBufferTriggerEvent_A : MonoBehaviour, IConvertGameObjectToEntity {
 
 		public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem) {
+
+			dstManager.AddBuffer<StatefulTriggerEvent>(entity);
+
+		}
+		
+	}
+
+	[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+	[UpdateAfter(typeof(StepPhysicsWorld))]
+	[UpdateBefore(typeof(EndFramePhysicsSystem))]
+	public class TriggerEventConversion_S : SystemBase {
+
+		private StepPhysicsWorld stepPhysicsWorld = default;
+		private BuildPhysicsWorld buildPhysicsWorld = default;
+		private EndFramePhysicsSystem endFramePhysicsSystem = default;
+
+		private EntityQuery query = default;
+
+		private NativeList<StatefulTriggerEvent> prevFrameTriggerEvents;
+		private NativeList<StatefulTriggerEvent> curFrameTriggerEvents;
+
+		protected override void OnCreate() {
+
+			this.stepPhysicsWorld = World.GetOrCreateSystem<StepPhysicsWorld>();
+			this.buildPhysicsWorld = World.GetOrCreateSystem<BuildPhysicsWorld>();
+			this.endFramePhysicsSystem = World.GetOrCreateSystem<EndFramePhysicsSystem>();
+
+			this.query = GetEntityQuery(new EntityQueryDesc() {
+				All = new ComponentType[] {
+					typeof(StatefulTriggerEvent),
+				},
+				None = new ComponentType[] {
+					typeof(ExcludeFromTriggerEventConversion),
+				},
+			});
+
+			this.prevFrameTriggerEvents = new NativeList<StatefulTriggerEvent>(Allocator.Persistent);
+			this.curFrameTriggerEvents = new NativeList<StatefulTriggerEvent>(Allocator.Persistent);
+
+		}
+
+		protected override void OnDestroy() {
+
+			this.prevFrameTriggerEvents.Dispose();
+			this.curFrameTriggerEvents.Dispose();
+
+		}
+
+		private void PushPrevFrameEvents() {
+			
+			var tmp = this.prevFrameTriggerEvents;
+			this.prevFrameTriggerEvents = this.curFrameTriggerEvents;
+			this.curFrameTriggerEvents = this.prevFrameTriggerEvents;
+			this.curFrameTriggerEvents.Clear();
+
+		}
+
+		protected override void OnUpdate() {
+
+			if (this.query.CalculateEntityCount() == 0) return;
+			
+			Dependency = JobHandle.CombineDependencies(this.stepPhysicsWorld.FinalSimulationJobHandle, Dependency);
+
+			Entities.WithName("ClearTriggerEventDynamicBufferParallelJob")
+				.WithNone<ExcludeFromTriggerEventConversion>()
+				.ForEach((ref DynamicBuffer<StatefulTriggerEvent> buffer) => {
+					
+					buffer.Clear();
+					
+				})
+				.ScheduleParallel();
+
+			this.PushPrevFrameEvents();
+
+			var curFrameEvents = this.curFrameTriggerEvents;
+			var prevFrameEvents = this.prevFrameTriggerEvents;
+			
+			var triggerEventBuffer = GetBufferFromEntity<StatefulTriggerEvent>();
+			var physicsWorld = this.buildPhysicsWorld.PhysicsWorld;
+
+			var collectTriggerEventJob = new CollectTriggerEventJob() {
+
+				triggerEvents = curFrameEvents,
+
+			};
+
+			var collectJobHandle =
+				collectTriggerEventJob.Schedule(this.stepPhysicsWorld.Simulation, ref physicsWorld, Dependency);
+
+			NativeHashSet<Entity> entitiesWithBuffersMsp = new NativeHashSet<Entity>(0, Allocator.TempJob);
+
+			var collectTriggerBuffersHandle = Entities.WithName("CollectTriggerBuffersJob")
+				.WithNone<ExcludeFromTriggerEventConversion>()
+				.WithAll<StatefulTriggerEvent>()
+				.ForEach((Entity e) => {
+
+					entitiesWithBuffersMsp.Add(e);
+
+				}).Schedule(Dependency);
+			
+			Dependency = JobHandle.CombineDependencies(collectJobHandle, collectTriggerBuffersHandle);
+
+			Job.WithName("ConvertTriggerEventStreamToDynamicBuffersJob")
+				.WithCode(() => {
+
+					curFrameEvents.Sort();
+
+					var triggerEventsWithState = new NativeList<StatefulTriggerEvent>(curFrameEvents.Length, Allocator.Temp);
+					TriggerEventConversion_S.UpdateTriggerEventState(prevFrameEvents, curFrameEvents, triggerEventsWithState);
+					TriggerEventConversion_S.AddTriggerEventsToDynamicBuffers(triggerEventsWithState, ref triggerEventBuffer, entitiesWithBuffersMsp);
+					
+				}).Schedule();
+			
+			this.endFramePhysicsSystem.AddInputDependency(Dependency);
+			entitiesWithBuffersMsp.Dispose(Dependency);
+
+		}
+
+		public static void UpdateTriggerEventState(
+			NativeList<StatefulTriggerEvent> prevTriggerEvents,
+			NativeList<StatefulTriggerEvent> currentTriggerEvents,
+			NativeList<StatefulTriggerEvent> resultTriggerEvents) {
+
+			int i = 0;
+			int j = 0;
+
+			while (i < prevTriggerEvents.Length && j < currentTriggerEvents.Length) {
+
+				var prevEvent = prevTriggerEvents[i];
+				var currEvent = currentTriggerEvents[j];
+
+				int cmpResult = currEvent.CompareTo(prevEvent);
+				
+				// events equal. Appears in prev and current frame. STAY
+				if (cmpResult == 0) {
+
+					currEvent.State = EventOverlapState.Stay;
+					resultTriggerEvents.Add(currEvent);
+
+					++i;
+					++j;
+
+				} else if (cmpResult < 0) {
+					
+					// event appears in current frame but not previous. ENTER
+					currEvent.State = EventOverlapState.Enter;
+					resultTriggerEvents.Add(currEvent);
+
+					++i;
+
+				}
+				else {
+					
+					// event appeared in previous frame but not current. Exit
+					prevEvent.State = EventOverlapState.Exit;
+					resultTriggerEvents.Add(prevEvent);
+
+					++j;
+
+				}
+
+			}
+
+			if (i == currentTriggerEvents.Length) {
+				
+				// all left previous events exit
+				while (j < prevTriggerEvents.Length) {
+
+					++j;
+					var prevEvent = prevTriggerEvents[j];
+					prevEvent.State = EventOverlapState.Exit;
+					resultTriggerEvents.Add(prevEvent);
+
+				}
+				
+			} else if (j == prevTriggerEvents.Length) {
+				
+				// all left current events enter
+				while (i < currentTriggerEvents.Length) {
+
+					++i;
+					var currEvent = currentTriggerEvents[i];
+					currEvent.State = EventOverlapState.Enter;
+					resultTriggerEvents.Add(currEvent);
+
+				}
+				
+			}
+
+		}
+
+		public static void AddTriggerEventsToDynamicBuffers(
+			NativeList<StatefulTriggerEvent> triggerEvents,
+			ref BufferFromEntity<StatefulTriggerEvent> bufferFromEntity,
+			NativeHashSet<Entity> entitiesWithTriggerBuffers) {
+
+			for (int i = 0; i < triggerEvents.Length; ++i) {
+
+				var triggerEvent = triggerEvents[i];
+				if (entitiesWithTriggerBuffers.Contains(triggerEvent.EntityA)) {
+
+					bufferFromEntity[triggerEvent.EntityA].Add(triggerEvent);
+
+				}
+				if (entitiesWithTriggerBuffers.Contains(triggerEvent.EntityB)) {
+
+					bufferFromEntity[triggerEvent.EntityB].Add(triggerEvent);
+
+				}
+
+			}
+
+		}
+
+		private struct CollectTriggerEventJob : ITriggerEventsJob {
+
+			public NativeList<StatefulTriggerEvent> triggerEvents;
+
+			public void Execute(TriggerEvent triggerEvent) {
+				
+				this.triggerEvents.Add(new StatefulTriggerEvent(
+					triggerEvent.EntityA,
+					triggerEvent.EntityB,
+					triggerEvent.BodyIndexA,
+					triggerEvent.BodyIndexB,
+					triggerEvent.ColliderKeyA,
+					triggerEvent.ColliderKeyB
+					));
+				
+			}
 			
 		}
 		
