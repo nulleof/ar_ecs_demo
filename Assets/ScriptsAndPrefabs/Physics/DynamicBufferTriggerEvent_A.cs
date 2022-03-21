@@ -124,6 +124,8 @@ namespace ScriptsAndPrefabs.Physics {
 	[UpdateBefore(typeof(EndFramePhysicsSystem))]
 	public class TriggerEventConversion_S : SystemBase {
 
+		public JobHandle OutDependency => Dependency;
+
 		private StepPhysicsWorld stepPhysicsWorld = default;
 		private BuildPhysicsWorld buildPhysicsWorld = default;
 		private EndFramePhysicsSystem endFramePhysicsSystem = default;
@@ -162,9 +164,7 @@ namespace ScriptsAndPrefabs.Physics {
 
 		private void PushPrevFrameEvents() {
 			
-			var tmp = this.prevFrameTriggerEvents;
-			this.prevFrameTriggerEvents = this.curFrameTriggerEvents;
-			this.curFrameTriggerEvents = this.prevFrameTriggerEvents;
+			(this.prevFrameTriggerEvents, this.curFrameTriggerEvents) = (this.curFrameTriggerEvents, this.prevFrameTriggerEvents);
 			this.curFrameTriggerEvents.Clear();
 
 		}
@@ -280,10 +280,10 @@ namespace ScriptsAndPrefabs.Physics {
 				// all left previous events exit
 				while (j < prevTriggerEvents.Length) {
 
-					++j;
 					var prevEvent = prevTriggerEvents[j];
 					prevEvent.State = EventOverlapState.Exit;
 					resultTriggerEvents.Add(prevEvent);
+					++j;
 
 				}
 				
@@ -292,10 +292,10 @@ namespace ScriptsAndPrefabs.Physics {
 				// all left current events enter
 				while (i < currentTriggerEvents.Length) {
 
-					++i;
 					var currEvent = currentTriggerEvents[i];
 					currEvent.State = EventOverlapState.Enter;
 					resultTriggerEvents.Add(currEvent);
+					++i;
 
 				}
 				

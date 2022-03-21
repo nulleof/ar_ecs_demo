@@ -77,6 +77,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1608614857734378308, guid: 13d14e5db31ed43c49d87beff8d552c5, type: 3}
+      propertyPath: weaponCooldown
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608614857734378308, guid: 13d14e5db31ed43c49d87beff8d552c5, type: 3}
       propertyPath: sensibilityVert
       value: 0.1
       objectReference: {fileID: 0}
