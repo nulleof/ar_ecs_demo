@@ -1,7 +1,7 @@
 using Unity.Entities;
 
 namespace ScriptsAndPrefabs.Player.Weapon {
-	public class WeaponTriggerFire_S : SystemBase {
+	public partial class WeaponTriggerFire_S : SystemBase {
 		
 		private BeginSimulationEntityCommandBufferSystem beginSimECB;
 		

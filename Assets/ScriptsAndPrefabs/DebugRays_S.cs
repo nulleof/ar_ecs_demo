@@ -3,7 +3,7 @@ using Unity.Transforms;
 using UnityEngine;
 
 namespace ScriptsAndPrefabs {
-	public class DebugRays_S : SystemBase {
+	public partial class DebugRays_S : SystemBase {
 
 		protected override void OnCreate() {
 			

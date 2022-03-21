@@ -3,7 +3,7 @@ using Unity.Entities;
 namespace ScriptsAndPrefabs.Player.Weapon {
 
 	[UpdateInGroup(typeof(SimulationSystemGroup))]
-	public class BulletAge_S : SystemBase {
+	public partial class BulletAge_S : SystemBase {
 
 		private BeginSimulationEntityCommandBufferSystem beginSimECB;
 

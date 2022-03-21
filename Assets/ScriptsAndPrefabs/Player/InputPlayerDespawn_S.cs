@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 namespace ScriptsAndPrefabs.Player {
 
 	[UpdateInGroup(typeof(UpdatePresentationSystemGroup))]
-	public class InputPlayerDespawn_S : SystemBase {
+	public partial class InputPlayerDespawn_S : SystemBase {
 
 		private EndSimulationEntityCommandBufferSystem endSimECB;
 		private PlayerInputControl playerInputControl;

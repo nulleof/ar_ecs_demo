@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 namespace ScriptsAndPrefabs.Player {
 
 	[UpdateInGroup(typeof(StructuralChangePresentationSystemGroup))]
-	public class InputPlayerSpawn_S : SystemBase {
+	public partial class InputPlayerSpawn_S : SystemBase {
 
 		private Entity playerPrefab;
 

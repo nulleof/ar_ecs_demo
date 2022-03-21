@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace ScriptsAndPrefabs.Player {
 
-	public class InputPlayerFire_S : SystemBase {
+	public partial class InputPlayerFire_S : SystemBase {
 
 		private PlayerInputControl playerInputControl;
 		private BeginSimulationEntityCommandBufferSystem beginSimECB;

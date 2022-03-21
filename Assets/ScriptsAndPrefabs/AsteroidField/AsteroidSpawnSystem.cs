@@ -7,7 +7,7 @@ using Unity.Transforms;
 
 namespace ScriptsAndPrefabs.AsteroidField {
 
-	public class AsteroidSpawnSystem : SystemBase {
+	public partial class AsteroidSpawnSystem : SystemBase {
 
 		private EntityQuery asteroidQuery;
 		private BeginSimulationEntityCommandBufferSystem beginSimECB;

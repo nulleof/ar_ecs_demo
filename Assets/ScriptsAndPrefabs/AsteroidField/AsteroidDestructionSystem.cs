@@ -3,7 +3,7 @@ using Unity.Entities;
 namespace ScriptsAndPrefabs.AsteroidField {
 
 	[UpdateInGroup(typeof(LateSimulationSystemGroup))]
-	public class AsteroidDestructionSystem : SystemBase {
+	public partial class AsteroidDestructionSystem : SystemBase {
 
 		private EndSimulationEntityCommandBufferSystem endSimECB;
 

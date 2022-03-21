@@ -122,7 +122,7 @@ namespace ScriptsAndPrefabs.Physics {
 	[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 	[UpdateAfter(typeof(StepPhysicsWorld))]
 	[UpdateBefore(typeof(EndFramePhysicsSystem))]
-	public class TriggerEventConversion_S : SystemBase {
+	public partial class TriggerEventConversion_S : SystemBase {
 
 		public JobHandle OutDependency => Dependency;
 
@@ -199,7 +199,7 @@ namespace ScriptsAndPrefabs.Physics {
 			};
 
 			var collectJobHandle =
-				collectTriggerEventJob.Schedule(this.stepPhysicsWorld.Simulation, ref physicsWorld, Dependency);
+				collectTriggerEventJob.Schedule(this.stepPhysicsWorld.Simulation, Dependency);
 
 			NativeHashSet<Entity> entitiesWithBuffersMsp = new NativeHashSet<Entity>(0, Allocator.TempJob);
 
@@ -225,7 +225,8 @@ namespace ScriptsAndPrefabs.Physics {
 					
 				}).Schedule();
 			
-			this.endFramePhysicsSystem.AddInputDependency(Dependency);
+			this.endFramePhysicsSystem.RegisterPhysicsRuntimeSystemReadOnly();
+				// AddInputDependency(Dependency);
 			entitiesWithBuffersMsp.Dispose(Dependency);
 
 		}

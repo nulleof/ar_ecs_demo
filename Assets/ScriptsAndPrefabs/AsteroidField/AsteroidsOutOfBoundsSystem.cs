@@ -6,7 +6,7 @@ namespace ScriptsAndPrefabs.AsteroidField {
 
 	[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 	[UpdateBefore(typeof(EndFixedStepSimulationEntityCommandBufferSystem))]
-	public class AsteroidsOutOfBoundsSystem : SystemBase {
+	public partial class AsteroidsOutOfBoundsSystem : SystemBase {
 
 		private EndFixedStepSimulationEntityCommandBufferSystem endFixedStepSimECB;
 

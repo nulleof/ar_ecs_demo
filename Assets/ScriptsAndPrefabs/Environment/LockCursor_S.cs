@@ -6,7 +6,7 @@ namespace ScriptsAndPrefabs.Environment {
 	public struct CursorLock_C : IComponentData {}
 
 	[UpdateInGroup(typeof(InitializationSystemGroup))]
-	public class LockCursor_S : SystemBase {
+	public partial class LockCursor_S : SystemBase {
 
 		protected override void OnCreate() {
 

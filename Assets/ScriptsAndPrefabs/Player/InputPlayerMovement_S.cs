@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace ScriptsAndPrefabs.Player {
 
-	public class InputPlayerMovement_S : SystemBase {
+	public partial class InputPlayerMovement_S : SystemBase {
 
 		private PlayerInputControl playerInputControl;
 

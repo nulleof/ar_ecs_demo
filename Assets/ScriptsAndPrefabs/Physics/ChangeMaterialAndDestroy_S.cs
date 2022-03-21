@@ -7,7 +7,7 @@ namespace ScriptsAndPrefabs.Physics {
 	
 	[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 	[UpdateAfter(typeof(TriggerEventConversion_S))]
-	public class ChangeMaterialAndDestroy_S : SystemBase {
+	public partial class ChangeMaterialAndDestroy_S : SystemBase {
 
 		private TriggerEventConversion_S triggerConversionS;
 		private EndFixedStepSimulationEntityCommandBufferSystem endFixedStepCBS;

@@ -2,7 +2,7 @@ using Unity.Entities;
 
 namespace ScriptsAndPrefabs.Player.Weapon {
 
-	public class WeaponCool_S : SystemBase {
+	public partial class WeaponCool_S : SystemBase {
 
 		protected override void OnUpdate() {
 

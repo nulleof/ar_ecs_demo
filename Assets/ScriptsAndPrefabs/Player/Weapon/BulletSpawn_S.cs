@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ScriptsAndPrefabs.Player.Weapon {
 
-	public class BulletSpawn_S : SystemBase {
+	public partial class BulletSpawn_S : SystemBase {
 
 		private BeginSimulationEntityCommandBufferSystem beginSimECB;
 
