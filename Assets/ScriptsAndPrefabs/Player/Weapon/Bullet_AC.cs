@@ -1,12 +1,14 @@
 using System;
-using Unity.Collections;
 using Unity.Entities;
-using Unity.Mathematics;
 
-[Serializable]
-[GenerateAuthoringComponent]
-public struct Bullet_AC : IComponentData {
+namespace ScriptsAndPrefabs.Player.Weapon {
 
-	public Entity prefab;
+	[Serializable]
+	[GenerateAuthoringComponent]
+	public struct Bullet_AC : IComponentData {
+
+		public Entity prefab;
+
+	}
 
 }

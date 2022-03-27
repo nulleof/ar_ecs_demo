@@ -1,3 +1,4 @@
+using ScriptsAndPrefabs.Mixed.Components;
 using Unity.Entities;
 using UnityEngine;
 
@@ -15,7 +16,8 @@ namespace ScriptsAndPrefabs {
 		public int levelHeight = 2048;
 		public int levelDepth = 2048;
 
-		[Header("Debug")] public bool drawRaysMuzzles = false;
+		[Header("Debug")]
+		public bool drawRaysMuzzles = false;
 
 		public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem) {
 
