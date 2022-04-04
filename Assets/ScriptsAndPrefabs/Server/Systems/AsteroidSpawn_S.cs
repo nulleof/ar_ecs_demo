@@ -1,19 +1,24 @@
 using System.Diagnostics;
+using ScriptsAndPrefabs.AsteroidField;
 using ScriptsAndPrefabs.Mixed.Components;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
 
-namespace ScriptsAndPrefabs.AsteroidField {
+namespace ScriptsAndPrefabs.Server.Systems {
 
-	public partial class AsteroidSpawnSystem : SystemBase {
+	[UpdateInGroup(typeof(ServerSimulationSystemGroup))]
+	public partial class AsteroidSpawn_S : SystemBase {
 
 		private EntityQuery asteroidQuery;
 		private BeginSimulationEntityCommandBufferSystem beginSimECB;
 		private EntityQuery gameSettingsQuery;
 		private Entity asteroidPrefab;
+
+		private EntityQuery connectionGroup;
 
 		protected override void OnCreate() {
 
@@ -23,31 +28,37 @@ namespace ScriptsAndPrefabs.AsteroidField {
 
 			RequireForUpdate(gameSettingsQuery);
 
+			// Don't spawn asteroids if there is no clients to save cpu
+			this.connectionGroup = GetEntityQuery(ComponentType.ReadWrite<NetworkStreamConnection>());
+
 		}
 
 		protected override void OnUpdate() {
 
+			if (this.connectionGroup.IsEmptyIgnoreFilter == true) {
+				
+				// there is no connected clients. Destroy all asteroids
+				EntityManager.DestroyEntity(this.asteroidQuery);
+				return;
+
+			}
+
 			if (this.asteroidPrefab == Entity.Null) {
 
 				this.asteroidPrefab = GetSingleton<Asteroid_AC>().prefab;
-
-				// ECS funny business
-				return;
 
 			}
 
 			var settings = GetSingleton<GameSettings_C>();
 			var commandBuffer = beginSimECB.CreateCommandBuffer();
 			var count = this.asteroidQuery.CalculateEntityCountWithoutFiltering();
-			// ECS funny business
-			var asteroidPrefab = this.asteroidPrefab;
 			var rand = new Random((uint) Stopwatch.GetTimestamp());
 
 			SpawnJob job = new SpawnJob {
 				commandBuffer = commandBuffer,
 				count = count,
 				settings = settings,
-				prefab = asteroidPrefab,
+				prefab = this.asteroidPrefab,
 				rand = rand,
 			};
 

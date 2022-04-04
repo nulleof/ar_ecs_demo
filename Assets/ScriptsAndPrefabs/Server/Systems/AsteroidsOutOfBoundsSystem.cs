@@ -1,10 +1,14 @@
+using ScriptsAndPrefabs.AsteroidField;
 using ScriptsAndPrefabs.Mixed.Components;
 using Unity.Entities;
+using Unity.NetCode;
 using Unity.Transforms;
 using UnityEngine;
 
-namespace ScriptsAndPrefabs.AsteroidField {
+namespace ScriptsAndPrefabs.Server.Systems {
 
+	// Update in world instead group, because UpdateInGroup can be used only once in attributes
+	[UpdateInWorld(TargetWorld.Server)]
 	[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 	[UpdateBefore(typeof(EndFixedStepSimulationEntityCommandBufferSystem))]
 	public partial class AsteroidsOutOfBoundsSystem : SystemBase {

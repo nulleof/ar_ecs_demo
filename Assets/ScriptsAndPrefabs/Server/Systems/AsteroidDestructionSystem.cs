@@ -1,7 +1,10 @@
+using ScriptsAndPrefabs.AsteroidField;
 using Unity.Entities;
+using Unity.NetCode;
 
-namespace ScriptsAndPrefabs.AsteroidField {
+namespace ScriptsAndPrefabs.Server.Systems {
 
+	[UpdateInWorld(TargetWorld.Server)]
 	[UpdateInGroup(typeof(LateSimulationSystemGroup))]
 	public partial class AsteroidDestructionSystem : SystemBase {
 
