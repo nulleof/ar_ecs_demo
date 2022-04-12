@@ -11,8 +11,6 @@ namespace ScriptsAndPrefabs.Player {
 		[Header("Mouse sensibility")] public float sensibilityHor;
 		public float sensibilityVert;
 
-		[Header("Spawn player on start")] public bool spawnPlayerOnStart;
-
 		public float bulletVelocity;
 		public float weaponCooldown;
 
