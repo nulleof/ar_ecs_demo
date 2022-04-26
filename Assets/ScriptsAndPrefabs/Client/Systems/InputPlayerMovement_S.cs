@@ -1,4 +1,5 @@
 using ScriptsAndPrefabs.Mixed.Components;
+using ScriptsAndPrefabs.Player;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
@@ -6,7 +7,7 @@ using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace ScriptsAndPrefabs.Player {
+namespace ScriptsAndPrefabs.Client.Systems {
 
 	public partial class InputPlayerMovement_S : SystemBase {
 

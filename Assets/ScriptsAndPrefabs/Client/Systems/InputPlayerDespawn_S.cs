@@ -1,9 +1,9 @@
+using ScriptsAndPrefabs.Player;
 using Unity.Entities;
 using Unity.Rendering;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace ScriptsAndPrefabs.Player {
+namespace ScriptsAndPrefabs.Client.Systems {
 
 	[UpdateInGroup(typeof(UpdatePresentationSystemGroup))]
 	public partial class InputPlayerDespawn_S : SystemBase {

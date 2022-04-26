@@ -1,9 +1,9 @@
+using ScriptsAndPrefabs.Player;
 using ScriptsAndPrefabs.Player.Weapon;
 using Unity.Entities;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace ScriptsAndPrefabs.Player {
+namespace ScriptsAndPrefabs.Client.Systems {
 
 	public partial class InputPlayerFire_S : SystemBase {
 
